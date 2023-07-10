@@ -18,12 +18,17 @@ flatpickr(calendar, {
   minuteIncrement: 1,
   onClose(selectedDates) {
     if (selectedDates[0].getTime() < Date.now()) {
+      Report.failure(
+        'Please choose a date in the future',
+        ''
+      );
     } else {
       startBtn.disabled = false;
       const setTimer = () => {
         selectedDate = selectedDates[0].getTime();
         timer.start();
       };
+
       startBtn.addEventListener('click', setTimer);
     }
   },
@@ -38,6 +43,11 @@ const timer = {
       currentDate = Date.now();
       const delta = selectedDate - currentDate;
 
+      if (delta <= 0) {
+        this.stop();
+      
+        return;
+      }
       const { days, hours, minutes, seconds } = this.convertMs(delta);
       this.rootSelector.querySelector('[data-days]').textContent =
         this.addLeadingZero(days);

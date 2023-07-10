@@ -28,7 +28,6 @@ input#datetime-picker[disabled] {
 }
 
 [disabled] {
-  color: #ab803c;
   animation: none;
 }
 
